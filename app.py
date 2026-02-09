@@ -91,5 +91,5 @@ if st.button("🔮 Predict My Segment"):
 
 # Footer
 st.markdown("---")
-st.markdown("<p style='text-align: center; color: #b2bec3;'>Made with 💕 | K-Means Clustering</p>", unsafe_allow_html=True)
+
 
