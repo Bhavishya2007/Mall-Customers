@@ -1,0 +1,87 @@
+import streamlit as st
+import joblib
+import numpy as np
+
+# Load the trained model and scaler
+model = joblib.load('kmeans_model.pkl')
+scaler = joblib.load('scaler.pkl')
+
+# Custom CSS for cute UI
+st.markdown("""
+<style>
+    .stApp {
+        background-color: #fff5f8;
+    }
+    .stTitle {
+        color: #e84393;
+        font-family: 'Comic Sans MS', cursive;
+        text-align: center;
+    }
+    .stNumberInput label {
+        color: #6c5ce7;
+        font-weight: bold;
+    }
+    .stButton>button {
+        background: linear-gradient(45deg, #fd79a8, #e84393);
+        color: white;
+        border-radius: 20px;
+        border: none;
+        padding: 10px 30px;
+        font-weight: bold;
+    }
+    .stButton>button:hover {
+        background: linear-gradient(45deg, #e84393, #fd79a8);
+    }
+    div[data-testid="stSuccess"] {
+        background-color: #dfe6e9;
+        border-radius: 15px;
+        padding: 15px;
+    }
+    div[data-testid="stInfo"] {
+        background-color: #ffeaa7;
+        border-radius: 15px;
+        padding: 15px;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# App title with cute emoji
+st.markdown("<h1 style='text-align: center; color: #e84393;'>🌸 Mall Customer Clustering 🌸</h1>", unsafe_allow_html=True)
+
+# Input fields in cute boxes
+col1, col2 = st.columns(2)
+
+with col1:
+    st.markdown("### 💰 Annual Income")
+    annual_income = st.number_input("", min_value=0, max_value=150, value=60, placeholder="Enter income")
+
+with col2:
+    st.markdown("### 💳 Spending Score")
+    spending_score = st.number_input("", min_value=1, max_value=100, value=50, placeholder="Enter score")
+
+st.write("")
+
+# Prediction button
+if st.button("🔮 Predict My Segment"):
+    # Predict cluster
+    input_data = np.array([[annual_income, spending_score]])
+    input_scaled = scaler.transform(input_data)
+    cluster = model.predict(input_scaled)[0]
+    
+    # Cluster descriptions
+    cluster_info = {
+        0: "🔵 Careful Spenders ✨",
+        1: "🟢 Target Customers 🌟",
+        2: "🟡 Conservative Spenders 💛",
+        3: "🔴 Careless Spenders 🔥",
+        4: "⚪ Average Customers 🌈"
+    }
+    
+    # Output
+    st.success(f"🎀 Your Customer Segment: **Cluster {cluster}**")
+    st.info(f"💖 {cluster_info.get(cluster, 'Unknown')}")
+
+# Footer
+st.markdown("---")
+st.markdown("<p style='text-align: center; color: #b2bec3;'>Made with 💕 | K-Means Clustering</p>", unsafe_allow_html=True)
+
