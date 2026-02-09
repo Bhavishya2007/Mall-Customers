@@ -76,18 +76,18 @@ if st.button("🔮 Predict My Segment"):
     input_scaled = scaler.transform(input_data)
     cluster = model.predict(input_scaled)[0]
     
-    # Cluster descriptions
+    # Cluster descriptions (professional with money symbols)
     cluster_info = {
-        0: "🔵 Careful Spenders ✨",
-        1: "🟢 Target Customers 🌟",
-        2: "🟡 Conservative Spenders 💛",
-        3: "🔴 Careless Spenders 🔥",
-        4: "⚪ Average Customers 🌈"
+        0: "💰 Low Income + Low Spending | Careful Spenders",
+        1: "💎 High Income + High Spending | Target Customers",
+        2: "🏦 High Income + Low Spending | Conservative Spenders",
+        3: "🛒 Low Income + High Spending | Careless Spenders",
+        4: "⚖️ Medium Income + Medium Spending | Average Customers"
     }
     
     # Output
-    st.success(f"🎀 Your Customer Segment: **Cluster {cluster}**")
-    st.info(f"💖 {cluster_info.get(cluster, 'Unknown')}")
+    st.success(f"📊 Customer Segment: **Cluster {cluster}**")
+    st.info(cluster_info.get(cluster, 'Unknown'))
 
 # Footer
 st.markdown("---")
